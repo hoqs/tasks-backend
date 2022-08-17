@@ -39,6 +39,18 @@ pipeline{
                 }
             }
         }
+
+        stage('Deploy Frontend'){
+            steps{
+            dir('frontend') {
+                    git branch: 'master', credentialsId: 'github_hoqs', url: 'https://github.com/hoqs/tasks-frontend'
+                     deploy adapters: [tomcat8(credentialsId: 'login_tomcat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                    bat 'mvn test'
+                }
+            }
+        }
     }
 }
+
+
 
