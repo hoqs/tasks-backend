@@ -44,7 +44,17 @@ pipeline{
             steps{
             dir('frontend') {
                     git branch: 'master', credentialsId: 'github_hoqs', url: 'https://github.com/hoqs/tasks-frontend'
-                     deploy adapters: [tomcat8(credentialsId: 'login_tomcat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                    bat 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'login_tomcat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                    
+                }
+            }
+        }
+
+        stage('Functional Test'){
+            steps{
+                dir('functional-test') {
+                    git branch: 'main', credentialsId: 'github_hoqs', url: 'https://github.com/hoqs/tasks-functional-tests'
                     bat 'mvn test'
                 }
             }
