@@ -54,7 +54,7 @@ pipeline{
         stage('Functional Test'){
             steps{
                 dir('functional-test') {
-                    git branch: 'main', credentialsId: 'github_hoqs', url: 'https://github.com/hoqs/tasks-functional-tests'
+                    credentialsId: 'github_hoqs', url: 'https://github.com/hoqs/tasks-functional-tests'
                     bat 'mvn test'
                 }
             }
